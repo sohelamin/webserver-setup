@@ -26,7 +26,7 @@ sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-pass password
 sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password $DBPASSWD"
 sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect none"
 
-apt-get -y install mysql-server phpmyadmin
+sudo apt-get -y install mysql-server phpmyadmin
 
 mysql -uroot -p$DBPASSWD -e "CREATE DATABASE $DBNAME"
 mysql -uroot -p$DBPASSWD -e "grant all privileges on $DBNAME.* to '$DBUSER'@'localhost' identified by '$DBPASSWD'"
