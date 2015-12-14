@@ -34,11 +34,24 @@ mysql -uroot -p$DBPASSWD -e "grant all privileges on $DBNAME.* to '$DBUSER'@'loc
 # Installing php5 with mcrypt and other packages
 sudo apt-get install -y php5 libapache2-mod-php5 php5-curl php5-gd php5-mcrypt php5-readline mysql-server-5.5 php5-mysql git-core php5-xdebug
 
+# Configuring xdebug
 cat << EOF | sudo tee -a /etc/php5/mods-available/xdebug.ini
 xdebug.scream=1
 xdebug.cli_color=1
 xdebug.show_local_vars=1
 EOF
+
+cat << EOF | sudo tee -a /etc/php5/apache2/php.ini
+# Added for xdebug
+zend_extension="/usr/lib/php5/20121212/xdebug.so"
+xdebug.remote_enable=1
+xdebug.remote_handler=dbgp 
+xdebug.remote_mode=req
+xdebug.remote_host=127.0.0.1 
+xdebug.remote_port=9000
+xdebug.max_nesting_level=300
+EOF
+
 
 # Configuring Apache with PhpMyAdmin
 echo "Include /etc/phpmyadmin/apache.conf" | sudo tee -a /etc/apache2/apache2.conf
@@ -47,9 +60,10 @@ echo "Include /etc/phpmyadmin/apache.conf" | sudo tee -a /etc/apache2/apache2.co
 sudo a2enmod rewrite
 
 # Enabling all php errors
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/apache2/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/apache2/php.ini
-sed -i "s/disable_functions = .*/disable_functions = /" /etc/php5/cli/php.ini
+sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/apache2/php.ini
+sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/apache2/php.ini
+sudo sed -i "s/display_startup_errors = .*/display_startup_errors = On/" /etc/php5/apache2/php.ini
+sudo sed -i "s/disable_functions = .*/disable_functions = /" /etc/php5/cli/php.ini
 
 # Making info.php file for display phpinfo
 sudo chmod 777 -R /var/www/;
