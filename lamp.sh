@@ -32,7 +32,7 @@ mysql -uroot -p$DBPASSWD -e "CREATE DATABASE $DBNAME"
 mysql -uroot -p$DBPASSWD -e "grant all privileges on $DBNAME.* to '$DBUSER'@'localhost' identified by '$DBPASSWD'"
  
 # Installing php5 with mcrypt and other packages
-sudo apt-get install -y php5 libapache2-mod-php5 php5-curl php5-gd php5-mcrypt php5-readline mysql-server-5.5 php5-mysql git-core php5-xdebug
+sudo apt-get install -y php5 libapache2-mod-php5 php5-curl php5-gd php5-mcrypt php5-readline mysql-server php5-mysql git-core php5-xdebug
 
 # Configuring xdebug
 cat << EOF | sudo tee -a /etc/php5/mods-available/xdebug.ini
