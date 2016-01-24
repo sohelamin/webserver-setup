@@ -35,12 +35,6 @@ mysql -uroot -p$DBPASSWD -e "grant all privileges on $DBNAME.* to '$DBUSER'@'loc
 sudo apt-get install -y php5 libapache2-mod-php5 php5-curl php5-gd php5-mcrypt php5-readline mysql-server php5-mysql git-core php5-xdebug
 
 # Configuring xdebug
-cat << EOF | sudo tee -a /etc/php5/mods-available/xdebug.ini
-xdebug.scream=1
-xdebug.cli_color=1
-xdebug.show_local_vars=1
-EOF
-
 cat << EOF | sudo tee -a /etc/php5/apache2/php.ini
 # Added for xdebug
 zend_extension="/usr/lib/php5/20121212/xdebug.so"
