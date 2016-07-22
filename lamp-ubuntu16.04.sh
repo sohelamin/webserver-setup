@@ -62,8 +62,8 @@ sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/apache2/ph
 sudo sed -i "s/display_startup_errors = .*/display_startup_errors = On/" /etc/php/5.6/apache2/php.ini
 
 # Making info.php file for display phpinfo
-# sudo chmod 777 -R /var/www/;
-# sudo printf "<?php\nphpinfo();\n?>" > /var/www/html/info.php;
+sudo chmod 777 -R /var/www/;
+sudo printf "<?php\nphpinfo();\n?>" > /var/www/html/info.php;
 
 # Restarting apache2
 sudo service apache2 restart
