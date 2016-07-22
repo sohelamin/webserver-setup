@@ -29,13 +29,13 @@ sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-pass password
 sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password $DBPASSWD"
 sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect none"
 
-sudo apt-get -y install mysql-server phpmyadmin
+sudo apt-get install mysql-server phpmyadmin
 
 mysql -uroot -p$DBPASSWD -e "CREATE DATABASE $DBNAME"
 mysql -uroot -p$DBPASSWD -e "grant all privileges on $DBNAME.* to '$DBUSER'@'localhost' identified by '$DBPASSWD'"
  
 # Installing php5.6 with mcrypt and other packages
-sudo apt-get -y install php7.0 php5.6 php5.6-mysql php-gettext php5.6-mbstring php-xdebug libapache2-mod-php5.6 libapache2-mod-php7.0 php5.6-curl php5.6-gd php5.6-imap php5.6-mcrypt php5.6-readline
+sudo apt-get install php7.0 php5.6 php5.6-mysql php-gettext php5.6-mbstring php-xdebug libapache2-mod-php5.6 libapache2-mod-php7.0 php5.6-curl php5.6-gd php5.6-imap php5.6-mcrypt php5.6-readline
 
 # Configuring xdebug
 cat << EOF | sudo tee -a /etc/php/5.6/apache2/php.ini
