@@ -33,22 +33,33 @@ sudo apt-get install mysql-server phpmyadmin
 
 mysql -uroot -p$DBPASSWD -e "CREATE DATABASE $DBNAME"
 mysql -uroot -p$DBPASSWD -e "grant all privileges on $DBNAME.* to '$DBUSER'@'localhost' identified by '$DBPASSWD'"
- 
-# Installing php5.6 with mcrypt and other packages
-sudo apt-get install php7.0 php5.6 php5.6-mysql php-gettext php5.6-mbstring php-xdebug libapache2-mod-php5.6 libapache2-mod-php7.0 php5.6-curl php5.6-gd php5.6-imap php5.6-mcrypt php5.6-readline
 
-# Configuring xdebug
+# Installing php5.6 with mcrypt and other packages
+sudo apt-get install php7.0 php5.6 php5.6-mysql php-gettext php5.6-mbstring php-xdebug libapache2-mod-php5.6 libapache2-mod-php7.0 php5.6-curl php5.6-gd php-imap php5.6-imap php5.6-mcrypt php5.6-readline
+
+# Configuring xdebug for php5.6
 cat << EOF | sudo tee -a /etc/php/5.6/apache2/php.ini
 # Added for xdebug
 zend_extension="/usr/lib/php/20151012/xdebug.so"
 xdebug.remote_enable=1
-xdebug.remote_handler=dbgp 
+xdebug.remote_handler=dbgp
 xdebug.remote_mode=req
-xdebug.remote_host=127.0.0.1 
+xdebug.remote_host=127.0.0.1
 xdebug.remote_port=9000
 xdebug.max_nesting_level=300
 EOF
 
+# Configuring xdebug for php7.0
+cat << EOF | sudo tee -a /etc/php/7.0/apache2/php.ini
+# Added for xdebug
+zend_extension="/usr/lib/php/20151012/xdebug.so"
+xdebug.remote_enable=1
+xdebug.remote_handler=dbgp
+xdebug.remote_mode=req
+xdebug.remote_host=127.0.0.1
+xdebug.remote_port=9000
+xdebug.max_nesting_level=300
+EOF
 
 # Configuring Apache with PhpMyAdmin
 echo "Include /etc/phpmyadmin/apache.conf" | sudo tee -a /etc/apache2/apache2.conf
@@ -56,10 +67,23 @@ echo "Include /etc/phpmyadmin/apache.conf" | sudo tee -a /etc/apache2/apache2.co
 # Enabling rewrite module
 sudo a2enmod rewrite
 
-# Enabling all php errors
+# Enabling all php errors on 5.6
 sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/5.6/apache2/php.ini
 sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/5.6/apache2/php.ini
 sudo sed -i "s/display_startup_errors = .*/display_startup_errors = On/" /etc/php/5.6/apache2/php.ini
+
+# Upload limit & memory
+sudo sed -i "s/upload_max_filesize = .*/upload_max_filesize = 1024M/" /etc/php/5.6/apache2/php.ini
+sudo sed -i "s/post_max_size = .*/post_max_size = 1024M/" /etc/php/5.6/apache2/php.ini
+
+# Enabling all php errors on 7.0
+sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/apache2/php.ini
+sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/apache2/php.ini
+sudo sed -i "s/display_startup_errors = .*/display_startup_errors = On/" /etc/php/7.0/apache2/php.ini
+
+# Upload limit & memory
+sudo sed -i "s/upload_max_filesize = .*/upload_max_filesize = 1024M/" /etc/php/7.0/apache2/php.ini
+sudo sed -i "s/post_max_size = .*/post_max_size = 1024M/" /etc/php/7.0/apache2/php.ini
 
 # Making info.php file for display phpinfo
 sudo chmod 777 -R /var/www/;
