@@ -35,7 +35,7 @@ mysql -uroot -p$DBPASSWD -e "CREATE DATABASE $DBNAME"
 mysql -uroot -p$DBPASSWD -e "grant all privileges on $DBNAME.* to '$DBUSER'@'localhost' identified by '$DBPASSWD'"
 
 # Installing php5.6 with mcrypt and other packages
-sudo apt-get install php7.0 php5.6 php5.6-mysql php-gettext php5.6-mbstring php-xdebug libapache2-mod-php5.6 libapache2-mod-php7.0 php5.6-curl php5.6-gd php-imap php5.6-imap php5.6-mcrypt php5.6-readline
+sudo apt-get install php7.0 php5.6 php5.6-mysql php-gettext php5.6-mbstring php-xdebug libapache2-mod-php5.6 libapache2-mod-php7.0 php5.6-curl php5.6-gd php-imap php5.6-imap php5.6-mcrypt php5.6-readline php5.6-xml
 
 # Configuring xdebug for php5.6
 cat << EOF | sudo tee -a /etc/php/5.6/apache2/php.ini
@@ -86,8 +86,8 @@ sudo sed -i "s/upload_max_filesize = .*/upload_max_filesize = 1024M/" /etc/php/7
 sudo sed -i "s/post_max_size = .*/post_max_size = 1024M/" /etc/php/7.0/apache2/php.ini
 
 # Making info.php file for display phpinfo
-sudo chmod 777 -R /var/www/;
-sudo printf "<?php\nphpinfo();\n?>" > /var/www/html/info.php;
+# sudo chmod 777 -R /var/www/;
+# sudo printf "<?php\nphpinfo();\n?>" > /var/www/html/info.php;
 
 # Restarting apache2
 sudo service apache2 restart
