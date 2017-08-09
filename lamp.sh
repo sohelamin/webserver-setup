@@ -34,6 +34,9 @@ sudo apt-get install mysql-server phpmyadmin
 mysql -uroot -p$DBPASSWD -e "CREATE DATABASE $DBNAME"
 mysql -uroot -p$DBPASSWD -e "grant all privileges on $DBNAME.* to '$DBUSER'@'localhost' identified by '$DBPASSWD'"
 
+# Installing php7.1 with mcrypt and other packages
+sudo apt-get install php7.1 php7.1-mysql php7.1-gettext php7.1-mbstring php7.1-xdebug libapache2-mod-php7.1 php7.1-curl php7.1-gd php7.1-imap php7.1-mcrypt php7.1-readline php7.1-xml
+
 # Configuring xdebug for php7.1
 cat << EOF | sudo tee -a /etc/php/7.1/apache2/php.ini
 # Added for xdebug
